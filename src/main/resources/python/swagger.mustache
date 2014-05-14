@@ -111,9 +111,9 @@ class ApiClient:
                 objDict = obj
             else:
                 objDict = obj.__dict__
-            return {key: self.sanitizeForSerialization(val)
-                    for (key, val) in objDict.iteritems()
-                    if key != 'swaggerTypes'}
+            return dict([(key, self.sanitizeForSerialization(val))
+                         for (key, val) in objDict.iteritems()
+                         if key != 'swaggerTypes'])
 
         if type(postData) == list:
             # Could be a list of objects
