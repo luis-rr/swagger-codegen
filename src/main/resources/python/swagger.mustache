@@ -100,7 +100,7 @@ class ApiClient:
 
         if type(obj) == type(None):
             return None
-        elif type(obj) in [str, int, long, float, bool]:
+        elif type(obj) in [str, unicode, int, long, float, bool]:
             return obj
         elif type(obj) == list:
             return [self.sanitizeForSerialization(subObj) for subObj in obj]
@@ -136,7 +136,7 @@ class ApiClient:
 
         # Have to accept objClass as string or actual type. Type could be a
         # native Python type, or one of the model classes.
-        if type(objClass) == str:
+        if type(objClass) == str or type(objClass) == unicode:
             if 'list[' in objClass:
                 match = re.match('list\[(.*)\]', objClass)
                 subClass = match.group(1)
@@ -147,7 +147,7 @@ class ApiClient:
             else:  # not a native type, must be model class
                 objClass = eval(objClass + '.' + objClass)
 
-        if objClass in [int, long, float, dict, list, str, bool]:
+        if objClass in [int, long, float, dict, list, str, unicode, bool]:
             return objClass(obj)
         elif objClass == datetime:
             # Server will always return a time stamp in UTC, but with
@@ -161,7 +161,7 @@ class ApiClient:
         for attr, attrType in instance.swaggerTypes.iteritems():
             if obj is not None and attr in obj and type(obj) in [list, dict]:
                 value = obj[attr]
-                if attrType in ['str', 'int', 'long', 'float', 'bool']:
+                if attrType in ['str', 'unicode', 'int', 'long', 'float', 'bool']:
                     attrType = eval(attrType)
                     try:
                         value = attrType(value)
