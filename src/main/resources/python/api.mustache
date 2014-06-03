@@ -61,7 +61,7 @@ class {{classname}}(object):
 
         {{#queryParams}}
         if ('{{paramName}}' in params):
-            queryParams['{{paramName}}'] = self.apiClient.toPathValue(params['{{paramName}}'])
+            queryParams['{{paramName}}'] = self.apiClient.toStringValue(params['{{paramName}}'])
         {{/queryParams}}
 
         {{#headerParams}}

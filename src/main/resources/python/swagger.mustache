@@ -83,17 +83,29 @@ class ApiClient:
 
         return data
 
+    def toStringValue(self, obj):
+        """Convert a string or object to a string value.
+           Note: it does not escape the string.
+        Args:
+            obj -- object or string value
+        Returns:
+            string -- string value
+        """
+        if type(obj) == list:
+            return ','.join(obj)
+        else:
+            return str(obj)
+
     def toPathValue(self, obj):
-        """Convert a string or object to a path-friendly value
+        """Convert a string or object to a path-friendly value.
+           It escapes the contents of the string.
         Args:
             obj -- object or string value
         Returns:
             string -- quoted value
         """
-        if type(obj) == list:
-            return urllib.quote(','.join(obj))
-        else:
-            return urllib.quote(str(obj))
+        obj_str = self.toStringValue(obj)
+        return urllib.quote(obj_str)
 
     def sanitizeForSerialization(self, obj):
         """Dump an object into JSON for POSTing."""
