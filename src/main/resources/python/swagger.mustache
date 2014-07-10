@@ -146,6 +146,9 @@ class ApiClient:
         Returns:
             object -- deserialized object"""
 
+        if objClass == 'object':
+             objClass = 'dict'
+
         # Have to accept objClass as string or actual type. Type could be a
         # native Python type, or one of the model classes.
         if type(objClass) == str or type(objClass) == unicode:
